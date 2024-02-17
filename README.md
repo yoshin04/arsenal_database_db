@@ -23,9 +23,10 @@ https://docs.google.com/spreadsheets/d/1JZhjK050sCrYD0AITa6aBPbTbRLUFpXrbH5ItDif
 * Docker
 * REST API
 
+## 設計資料
+
 ## 開発環境構築
 ローカルマシンでの開発環境のセットアップ方法を説明します。
-
 【必要条件】
 * Go（バージョン1.22以上）
 * Node.js（バージョン20以上）
