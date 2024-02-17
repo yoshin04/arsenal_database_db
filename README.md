@@ -1,10 +1,10 @@
 # アーセナルベースDB
 アーケードカードゲーム「ガンダムアーセナルベース」のデッキシミュレーター。
 
-## 公式サイト
+### 公式サイト
 https://gundam-ab.com/
 
-## 参考資料
+### 参考資料
 https://docs.google.com/spreadsheets/d/1JZhjK050sCrYD0AITa6aBPbTbRLUFpXrbH5ItDif0as/edit?usp=drivesdk
 
 ## 目次
