@@ -1,0 +1,26 @@
+app
+# テストカバレッジファイル
+*.cover
+
+# ローカル環境設定ファイル
+.env
+.env.local
+
+# ログファイル
+*.log
+
+# OS固有のファイル
+.DS_Store
+Thumbs.db
+
+# エディタ固有のファイル
+.vscode/
+.idea/
+
+# 依存関係ディレクトリ（Go Modulesを使用している場合は不要）
+/vendor/
+
+# Goのビルドキャッシュ
+# Go 1.11以降でModulesを使用する場合、これは通常不要です
+/bin/
+/pkg/
