@@ -1,10 +1,10 @@
 package domain
 
-type MSCard struct {
-	No                    string      // MSカードNo
+type MsCard struct {
+	No                    string      // カードNo
 	IncludedCode          string      // 収録コード
 	Rarity                string      // レアリティ
-	Name                  string      // 名
+	Name                  string      // カード名
 	Type                  string      // タイプ
 	Cost                  uint8       // コスト
 	Mobility              uint16      // 機動力
@@ -20,6 +20,7 @@ type MSCard struct {
 	UnderwaterSuitability string      // 水中適正
 	SpAttack              SpAttack    // 特殊攻撃
 	MsAbility             MsAbility   // MSアビリティ
-	LinkAbility           LinkAbility // リンクアビリティ
+	LinkAbility1          LinkAbility // リンクアビリティ
+	LinkAbility2          LinkAbility // リンクアビリティ
 	SeriesTitle           string      // 出典作品
 }
