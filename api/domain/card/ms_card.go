@@ -2,6 +2,7 @@ package domain
 
 type MsCard struct {
 	No                    string      // カードNo
+	ImageUrl              string      // イメージURL
 	IncludedCode          string      // 収録コード
 	Rarity                string      // レアリティ
 	Name                  string      // カード名
