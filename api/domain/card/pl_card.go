@@ -2,6 +2,7 @@ package domain
 
 type PlCard struct {
 	No               string      // カードNo
+	ImageUrl         string      // イメージURL
 	IncludeCode      string      // 収録コード
 	Rarity           string      // PLカードレアリティ
 	Name             string      // カード名

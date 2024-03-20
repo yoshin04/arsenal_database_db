@@ -1,6 +1,7 @@
 package domain
 
 type User struct {
-	Id       string // ユーザID
-	Name		 string // ユーザ名
+	Id        string  // ユーザID
+	avatarUrl *string // ユーザアバターURL
+	Name      string  // ユーザ名
 }
