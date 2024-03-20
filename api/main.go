@@ -1,16 +1,17 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+)
 
 func main() {
-	// Ginエンジンの初期化
-	router := gin.Default()
-
-	// ヘルスチェック用のルート
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{"status": "UP"})
+	e := echo.New()
+	e.GET("/health", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, map[string]string{
+			"message": "hello",
+		})
 	})
-
-	// サーバーの起動
-	router.Run()
+	e.Logger.Fatal(e.Start(":8080"))
 }
