@@ -1,17 +1,14 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	"app/controller"
+	"app/router"
+	queryService "app/usecase/queries"
 )
 
 func main() {
-	e := echo.New()
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{
-			"message": "hello",
-		})
-	})
+	plCardQueryService := queryService.NewPlCardQueryService()
+	plCardController := controller.NewPlCardController(plCardQueryService)
+	e := router.NewRouter(plCardController)
 	e.Logger.Fatal(e.Start(":8080"))
 }
