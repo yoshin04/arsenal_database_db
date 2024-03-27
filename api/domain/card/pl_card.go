@@ -1,6 +1,7 @@
 package domain
 
 type PlCard struct {
+	Id               string      // カードID
 	No               string      // カードNo
 	ImageUrl         string      // イメージURL
 	IncludeCode      string      // 収録コード
