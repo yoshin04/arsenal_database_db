@@ -5,3 +5,5 @@ var CardType = map[string]string{
 	"Defense":      "DEFENSE",      // 防御
 	"Annihilation": "ANNIHILATION", // 殲滅
 }
+
+// test
