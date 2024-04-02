@@ -4,3 +4,20 @@ services:
     build: .
     ports:
       - "8080:8080"
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    command: go run . 
+
+  db:
+    image: mysql:8.0
+    env_file: .env
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
