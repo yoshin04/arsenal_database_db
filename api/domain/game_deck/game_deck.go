@@ -7,6 +7,7 @@ import (
 
 type GameDeck struct {
 	Id            string                // デッキID
+	Name          string                // デッキ名
 	UserId        string                // ユーザID
 	MsCard1       card.MsCard           // MSカード1
 	MsCard2       card.MsCard           // MSカード2
@@ -18,4 +19,5 @@ type GameDeck struct {
 	PlCard4       card.PlCard           // PLカード4
 	TacticalCard1 tactical.TacticalCard // TCカード1
 	TacticalCard2 tactical.TacticalCard // TCカード2
+	TacticalCard3 tactical.TacticalCard // TCカード3
 }

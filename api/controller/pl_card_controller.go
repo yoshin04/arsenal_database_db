@@ -1,7 +1,9 @@
 package controller
 
 import (
+	usecase "app/usecase/commands"
 	queryService "app/usecase/queries"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -10,15 +12,18 @@ import (
 type IPlCardController interface {
 	FindAll(c echo.Context) error
 	FindOneById(c echo.Context) error
+	ImportCsv(c echo.Context) error
 }
 
 type PlCardController struct {
-	queryService queryService.IPlCardQueryService
+	queryService           queryService.IPlCardQueryService
+	importPlCardCsvUsecase usecase.IImportPlCardCsvUsecase
 }
 
-func NewPlCardController(qs queryService.IPlCardQueryService) IPlCardController {
+func NewPlCardController(qs queryService.IPlCardQueryService, importPlCardCsvUc usecase.IImportPlCardCsvUsecase) IPlCardController {
 	return &PlCardController{
-		queryService: qs,
+		queryService:           qs,
+		importPlCardCsvUsecase: importPlCardCsvUc,
 	}
 }
 
@@ -42,4 +47,27 @@ func (pc *PlCardController) FindOneById(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, plCard)
+}
+
+func (pc *PlCardController) ImportCsv(c echo.Context) error {
+	log.Println("Running PlCardController.ImportCsv")
+	file, err := c.FormFile("file")
+	if err != nil {
+		log.Printf("Error encountered: %v", err)
+		return echo.NewHTTPError(http.StatusBadRequest, "Failed to retrieve file")
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		log.Printf("Error encountered: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to open file")
+	}
+	defer src.Close()
+
+	_, err = pc.importPlCardCsvUsecase.Run(src)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to import cards")
+	}
+
+	return c.JSON(http.StatusCreated, "Cards imported successfully")
 }
