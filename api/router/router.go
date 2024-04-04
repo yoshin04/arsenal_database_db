@@ -2,6 +2,7 @@ package router
 
 import (
 	"app/controller"
+	middleware "app/midleware"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -16,7 +17,7 @@ func NewRouter(plc controller.IPlCardController) *echo.Echo {
 	})
 	e.GET("/pl-cards", plc.FindAll)
 	e.GET("/pl-cards/:id", plc.FindOneById)
-	e.POST("/pl-cards/import-csv", plc.ImportCsv)
+	e.POST("/pl-cards/import-csv", plc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	return e
 }
