@@ -13,15 +13,15 @@ type ILinkAbilityRepository interface {
 	FindOrCreate(name string, effect string, requiredCardCount uint8) (models.LinkAbility, error)
 }
 
-type LinkAbilityRepository struct {
+type linkAbilityRepository struct {
 	db *gorm.DB
 }
 
 func NewLinkAbilityRepository(db *gorm.DB) ILinkAbilityRepository {
-	return &LinkAbilityRepository{db}
+	return &linkAbilityRepository{db}
 }
 
-func (r *LinkAbilityRepository) FindOrCreate(name string, effect string, requiredCardCount uint8) (models.LinkAbility, error) {
+func (r *linkAbilityRepository) FindOrCreate(name string, effect string, requiredCardCount uint8) (models.LinkAbility, error) {
 	log.Println("Running LinkAbilityRepository.FindOrCreate")
 	var linkAbility models.LinkAbility
 

@@ -15,19 +15,19 @@ type IPlCardController interface {
 	ImportCsv(c echo.Context) error
 }
 
-type PlCardController struct {
+type plCardController struct {
 	queryService           queryService.IPlCardQueryService
 	importPlCardCsvUsecase usecase.IImportPlCardCsvUsecase
 }
 
 func NewPlCardController(qs queryService.IPlCardQueryService, importPlCardCsvUc usecase.IImportPlCardCsvUsecase) IPlCardController {
-	return &PlCardController{
+	return &plCardController{
 		queryService:           qs,
 		importPlCardCsvUsecase: importPlCardCsvUc,
 	}
 }
 
-func (pc *PlCardController) FindAll(c echo.Context) error {
+func (pc *plCardController) FindAll(c echo.Context) error {
 	plCards, err := pc.queryService.FindAll()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve cards")
@@ -35,7 +35,7 @@ func (pc *PlCardController) FindAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, plCards)
 }
 
-func (pc *PlCardController) FindOneById(c echo.Context) error {
+func (pc *plCardController) FindOneById(c echo.Context) error {
 	id := c.Param("id")
 	plCard, err := pc.queryService.FindOneById(id)
 	if err != nil {
@@ -49,7 +49,7 @@ func (pc *PlCardController) FindOneById(c echo.Context) error {
 	return c.JSON(http.StatusOK, plCard)
 }
 
-func (pc *PlCardController) ImportCsv(c echo.Context) error {
+func (pc *plCardController) ImportCsv(c echo.Context) error {
 	log.Println("Running PlCardController.ImportCsv")
 	file, err := c.FormFile("file")
 	if err != nil {
