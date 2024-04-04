@@ -12,15 +12,15 @@ type IPLCardRepository interface {
 	Upsert(card *models.PLCard) error
 }
 
-type PLCardRepository struct {
+type plCardRepository struct {
 	db *gorm.DB
 }
 
 func NewPLCardRepository(db *gorm.DB) IPLCardRepository {
-	return &PLCardRepository{db}
+	return &plCardRepository{db}
 }
 
-func (r *PLCardRepository) Upsert(card *models.PLCard) error {
+func (r *plCardRepository) Upsert(card *models.PLCard) error {
 	log.Println("Running PLCardRepository.Upsert")
 	return r.db.Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "id"}},

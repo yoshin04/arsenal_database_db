@@ -28,9 +28,12 @@ func main() {
 
 	linkAbilityRepo := repository.NewLinkAbilityRepository(dbConn)
 	plCardRepo := repository.NewPLCardRepository(dbConn)
+	msCardRepo := repository.NewMSCardRepository(dbConn)
 	plCardQueryService := queryService.NewPlCardQueryService()
 	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo)
+	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo)
 	plCardController := controller.NewPlCardController(plCardQueryService, importPlCardCsvUsecase)
-	e := router.NewRouter(plCardController)
+	msCardController := controller.NewMsCardController(importMsCardCsvUsecase)
+	e := router.NewRouter(plCardController, msCardController)
 	e.Logger.Fatal(e.Start(":8080"))
 }

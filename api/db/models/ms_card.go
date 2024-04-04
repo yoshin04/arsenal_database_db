@@ -29,16 +29,17 @@ type MSCard struct {
 	SpCost                uint8
 	SpPower               uint16
 	SpRange               uint8
-	SpTargetType          string `gorm:"type:varchar(255)"`
-	SpDetail              string `gorm:"type:varchar(255)"`
-	AbilityName           string `gorm:"type:varchar(255)"`
-	AbilityCost           uint8
-	AbilityRange          uint8
-	AbilityDetail         string `gorm:"type:varchar(255)"`
-	SeriesTitle           string `gorm:"type:varchar(255)"`
+	SpTargetType          string  `gorm:"type:varchar(255)"`
+	SpType                string  `gorm:"type:varchar(255)"`
+	SpDetail              string  `gorm:"type:varchar(255)"`
+	AbilityName           *string `gorm:"type:varchar(255)"`
+	AbilityCost           *uint8
+	AbilityRange          *uint8
+	AbilityDetail         *string `gorm:"type:varchar(255)"`
+	SeriesTitle           string  `gorm:"type:varchar(255)"`
 
-	FirstLinkAbilityID  string      `gorm:"size:255"`
-	SecondLinkAbilityID string      `gorm:"size:255"`
+	FirstLinkAbilityID  *string     `gorm:"size:255"`
+	SecondLinkAbilityID *string     `gorm:"size:255"`
 	FirstLinkAbility    LinkAbility `gorm:"foreignKey:FirstLinkAbilityID;references:ID"`
 	SecondLinkAbility   LinkAbility `gorm:"foreignKey:SecondLinkAbilityID;references:ID"`
 }
