@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"app/db/models"
+	domain "app/domain/card"
 	repository "app/repositories"
 	"encoding/csv"
 	"io"
@@ -50,7 +51,7 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 		// If record[16] is not "-", find or create a new LinkAbility
 		if record[16] != "-" {
 			requiredCardCount, _ := strconv.ParseUint(record[18], 10, 8) // Default to 0 if parse fails
-			firstLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[16], record[19], uint8(requiredCardCount))
+			firstLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[16], domain.CsvTextConvertToLinkAbilityEffects(record[19]), uint8(requiredCardCount))
 			if err != nil {
 				log.Printf("Error firstLinkAbility parsing: %v", err)
 				return "", err
@@ -63,7 +64,7 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 		// Same for second LinkAbility
 		if record[20] != "-" {
 			requiredCardCount, _ := strconv.ParseUint(record[22], 10, 8) // Default to 0 if parse fails
-			secondLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[20], record[23], uint8(requiredCardCount))
+			secondLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[20], domain.CsvTextConvertToLinkAbilityEffects(record[23]), uint8(requiredCardCount))
 			if err != nil {
 				log.Printf("Error secondLinkAbility parsing: %v", err)
 				return "", err

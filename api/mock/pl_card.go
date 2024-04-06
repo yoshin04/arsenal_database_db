@@ -11,7 +11,7 @@ func GenerateDummyPlCards() []*domain.PlCard {
 			IncludeCode:      "AB01",
 			Rarity:           domain.Rarity["M"],
 			Name:             "アムロ・レイ",
-			Type:             domain.CardType["CONTROL"],
+			Type:             "制圧",
 			Cost:             4,
 			Mobility:         150,
 			LongRangeAttack:  200,

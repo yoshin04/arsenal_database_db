@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"app/db/models"
+	domain "app/domain/card"
 	repository "app/repositories"
 	"encoding/csv"
 	"io"
@@ -49,7 +50,7 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 
 		if record[30] != "-" {
 			requiredCardCount, _ := strconv.ParseUint(record[32], 10, 8)
-			firstLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[30], record[33], uint8(requiredCardCount))
+			firstLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[30], domain.CsvTextConvertToLinkAbilityEffects(record[33]), uint8(requiredCardCount))
 			if err != nil {
 				log.Printf("Error firstLinkAbility parsing: %v", err)
 				return "", err
@@ -61,7 +62,7 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 
 		if record[34] != "-" {
 			requiredCardCount, _ := strconv.ParseUint(record[36], 10, 8)
-			secondLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[34], record[37], uint8(requiredCardCount))
+			secondLinkAbility, err := uc.linkAbilityRepo.FindOrCreate(record[34], domain.CsvTextConvertToLinkAbilityEffects(record[37]), uint8(requiredCardCount))
 			if err != nil {
 				log.Printf("Error secondLinkAbility parsing: %v", err)
 				return "", err
@@ -174,7 +175,7 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 			ImageURL:              "https://example.com/" + record[1] + record[2] + ".webp",
 			Name:                  record[4],
 			Rarity:                record[3],
-			Type:                  record[7],
+			Type:                  record[6],
 			Cost:                  uint8(cost),
 			Mobility:              uint16(mobility),
 			LongRangeAttack:       uint16(longRangeAttack),
@@ -191,7 +192,7 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 			SpCost:                uint8(spCost),
 			SpPower:               uint16(spPower),
 			SpRange:               uint8(spRange),
-			SpTargetType:          record[23],
+			SpTargetType:          domain.CsvTextConvertToSpTargetType(record[23]),
 			SpType:                record[24],
 			SpDetail:              record[25],
 			AbilityName:           abilityName,
