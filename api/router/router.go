@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController) *echo.Echo {
+func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController, tsc controller.ITacticalCardController) *echo.Echo {
 	e := echo.New()
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{
@@ -20,6 +20,8 @@ func NewRouter(plc controller.IPlCardController, msc controller.IMsCardControlle
 	e.POST("/pl-cards/import-csv", plc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	e.POST("/ms-cards/import-csv", msc.ImportCsv, middleware.CSVImportAuthMiddleware)
+
+	e.POST("/tactical-cards/import-csv", tsc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	return e
 }

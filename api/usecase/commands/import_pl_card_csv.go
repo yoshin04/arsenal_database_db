@@ -134,13 +134,13 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 			SecondLinkAbilityID: secondLinkAbilityID,
 		}
 
-		log.Printf("Upserting: %v", plCard)
+		log.Printf("Upserting pl card : %v", plCard)
 
 		if err := uc.plCardRepo.Upsert(plCard); err != nil {
-			log.Printf("Error encountered: %v", err)
+			log.Printf("Error upserting pl card: %v", err)
 			return "", err
 		}
 	}
 
-	return "success", nil
+	return "Successfully imported pl cards", nil
 }
