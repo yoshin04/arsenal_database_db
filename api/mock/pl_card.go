@@ -1,4 +1,4 @@
-package mock
+package mocks
 
 import domain "app/domain/card"
 

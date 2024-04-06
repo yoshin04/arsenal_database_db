@@ -2,7 +2,7 @@ package queryService
 
 import (
 	domain "app/domain/card"
-	"app/mock"
+	mocks "app/mock"
 )
 
 type IPlCardQueryService interface {
@@ -17,12 +17,12 @@ func NewPlCardQueryService() IPlCardQueryService {
 }
 
 func (s *plCardQueryService) FindAll() ([]*domain.PlCard, error) {
-	var plCards = mock.GenerateDummyPlCards()
+	var plCards = mocks.GenerateDummyPlCards()
 	return plCards, nil
 }
 
 func (s *plCardQueryService) FindOneById(id string) (*domain.PlCard, error) {
-	var plCards = mock.GenerateDummyPlCards()
+	var plCards = mocks.GenerateDummyPlCards()
 	for _, plCard := range plCards {
 		if plCard.Id == id {
 			return plCard, nil
