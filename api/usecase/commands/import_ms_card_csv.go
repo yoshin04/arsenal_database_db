@@ -207,10 +207,10 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 		log.Printf("Upserting: %v", msCard)
 
 		if err := uc.msCardRepo.Upsert(msCard); err != nil {
-			log.Printf("Error encountered: %v", err)
+			log.Printf("Error upserting ms card: %v", err)
 			return "", err
 		}
 	}
 
-	return "success", nil
+	return "successfully imported tactical cards", nil
 }
