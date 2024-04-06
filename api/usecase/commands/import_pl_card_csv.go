@@ -5,8 +5,10 @@ import (
 	domain "app/domain/card"
 	repository "app/repositories"
 	"encoding/csv"
+	"fmt"
 	"io"
 	"log"
+	"os"
 	"strconv"
 )
 
@@ -47,6 +49,16 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 		}
 
 		var firstLinkAbilityID, secondLinkAbilityID *string
+
+		// record[2]の値を整数に変換
+		no, err := strconv.Atoi(record[2])
+		if err != nil {
+			log.Printf("Error parsing No: %v", err)
+			return "", err
+		}
+
+		// 整数を3桁の0埋め形式にフォーマット
+		formattedNo := fmt.Sprintf("%03d", no)
 
 		// If record[16] is not "-", find or create a new LinkAbility
 		if record[16] != "-" {
@@ -112,10 +124,10 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 		}
 
 		plCard := &models.PLCard{
-			ID:               record[1] + record[2],
+			ID:               record[1] + formattedNo,
 			IncludeCode:      record[1],
-			No:               record[2],
-			ImageURL:         "https://example.com/" + record[1] + record[2] + ".webp",
+			No:               formattedNo,
+			ImageURL:         os.Getenv("S3_URL") + record[1] + formattedNo + ".webp",
 			Name:             record[4],
 			Rarity:           record[3],
 			Type:             record[6],
