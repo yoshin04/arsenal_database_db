@@ -6,6 +6,7 @@ import (
 	"encoding/csv"
 	"io"
 	"log"
+	"os"
 	"strconv"
 )
 
@@ -51,7 +52,7 @@ func (uc *importTacticalCardCsvUsecase) Run(file io.Reader) (string, error) {
 
 		tacticalCard := &models.TacticalCard{
 			ID:             record[0],
-			ImageUrl:       "https://example.com/" + record[0],
+			ImageUrl:       os.Getenv("S3_URL") + record[0] + ".webp",
 			Name:           record[1],
 			Cost:           uint8(cost),
 			Detail:         record[4],
