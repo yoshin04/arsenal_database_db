@@ -38,8 +38,8 @@ type MSCard struct {
 	AbilityDetail         *string `gorm:"type:varchar(255)"`
 	SeriesTitle           string  `gorm:"type:varchar(255)"`
 
-	FirstLinkAbilityID  *string     `gorm:"size:255"`
-	SecondLinkAbilityID *string     `gorm:"size:255"`
-	FirstLinkAbility    LinkAbility `gorm:"foreignKey:FirstLinkAbilityID;references:ID"`
-	SecondLinkAbility   LinkAbility `gorm:"foreignKey:SecondLinkAbilityID;references:ID"`
+	FirstLinkAbilityID  *string      `gorm:"size:255"`
+	SecondLinkAbilityID *string      `gorm:"size:255"`
+	FirstLinkAbility    *LinkAbility `gorm:"foreignKey:FirstLinkAbilityID;references:ID"`
+	SecondLinkAbility   *LinkAbility `gorm:"foreignKey:SecondLinkAbilityID;references:ID"`
 }
