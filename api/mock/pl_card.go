@@ -5,7 +5,6 @@ import domain "app/domain/card"
 func GenerateDummyPlCards() []*domain.PlCard {
 	return []*domain.PlCard{
 		{
-			Id:               "AB01051",
 			No:               "051",
 			ImageUrl:         "https://example.com/image.jpg",
 			IncludeCode:      "AB01",
