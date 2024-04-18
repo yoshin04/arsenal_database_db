@@ -29,6 +29,7 @@ type MsCardFindManyResult struct {
 
 type IMsCardQueryService interface {
 	FindMany(input MsCardFindManyInput) (*MsCardFindManyResult, error)
+	FindOneById(id string) (*domain.MsCard, error)
 }
 
 type msCardQueryService struct {
@@ -110,4 +111,14 @@ func (s *msCardQueryService) FindMany(input MsCardFindManyInput) (*MsCardFindMan
 		Cards:       domainMsCards,
 		TotalLength: totalLength,
 	}, nil
+}
+
+func (s *msCardQueryService) FindOneById(id string) (*domain.MsCard, error) {
+	log.Printf("Running MsCardQueryService.FindOneById: %v", id)
+	var modelMsCard models.MSCard
+	result := s.db.Preload("FirstLinkAbility").Preload("SecondLinkAbility").First(&modelMsCard, "id = ?", id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return domain.ToDomainMsCard(&modelMsCard), nil
 }

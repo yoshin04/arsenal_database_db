@@ -15,6 +15,7 @@ import (
 type IMsCardController interface {
 	ImportCsv(c echo.Context) error
 	FindMany(c echo.Context) error
+	FindOneById(c echo.Context) error
 }
 
 type msCardController struct {
@@ -108,4 +109,20 @@ func (mc *msCardController) FindMany(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, msCards)
+}
+
+func (mc *msCardController) FindOneById(c echo.Context) error {
+	log.Println("Running MsCardController.FindOneById")
+	id := c.Param("id")
+	msCard, err := mc.msCardQueryService.FindOneById(id)
+	if err != nil {
+		log.Printf("Error while retrieving card: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve card")
+	}
+
+	if msCard == nil {
+		return echo.NewHTTPError(http.StatusNotFound, "Card not found")
+	}
+
+	return c.JSON(http.StatusOK, msCard)
 }
