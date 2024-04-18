@@ -16,7 +16,7 @@ func NewRouter(plc controller.IPlCardController, msc controller.IMsCardControlle
 		})
 	})
 	e.GET("/pl-cards", plc.FindMany)
-	// e.GET("/pl-cards/:id", plc.FindOneById)
+	e.GET("/pl-cards/:id", plc.FindOneById)
 	e.POST("/pl-cards/import-csv", plc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	e.GET("/ms-cards", msc.FindMany)
