@@ -20,6 +20,7 @@ func NewRouter(plc controller.IPlCardController, msc controller.IMsCardControlle
 	e.POST("/pl-cards/import-csv", plc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	e.GET("/ms-cards", msc.FindMany)
+	e.GET("/ms-cards/:id", msc.FindOneById)
 	e.POST("/ms-cards/import-csv", msc.ImportCsv, middleware.CSVImportAuthMiddleware)
 
 	e.POST("/tactical-cards/import-csv", tsc.ImportCsv, middleware.CSVImportAuthMiddleware)
