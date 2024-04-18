@@ -30,7 +30,7 @@ func main() {
 	plCardRepo := repository.NewPLCardRepository(dbConn)
 	msCardRepo := repository.NewMSCardRepository(dbConn)
 	tacRepo := repository.NewTacticalCardRepository(dbConn)
-	plCardQueryService := queryService.NewPlCardQueryService()
+	plCardQueryService := queryService.NewPlCardQueryService(dbConn)
 	msCardQueryService := queryService.NewMsCardQueryService(dbConn)
 	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo)
 	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo)

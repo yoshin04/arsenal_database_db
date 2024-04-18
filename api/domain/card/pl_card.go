@@ -1,7 +1,8 @@
 package domain
 
+import "app/db/models"
+
 type PlCard struct {
-	Id               string      // カードID
 	No               string      // カードNo
 	ImageUrl         string      // イメージURL
 	IncludeCode      string      // 収録コード
@@ -18,4 +19,50 @@ type PlCard struct {
 	LinkAbility1     LinkAbility // リンクアビリティ1
 	LinkAbility2     LinkAbility // リンクアビリティ2
 	SeriesTitle      string      // 出典作品
+}
+
+func ToDomainPlCard(m *models.PLCard) *PlCard {
+	if m == nil {
+		return nil
+	}
+	plSkill := PlSkill{
+		Name:      m.PlSkillName,
+		Condition: m.PlSkillCondition,
+		Detail:    m.PlSkillDetail,
+	}
+
+	var linkAbility1, linkAbility2 LinkAbility
+	if m.FirstLinkAbility != nil {
+		linkAbility1 = LinkAbility{
+			Name:              m.FirstLinkAbility.Name,
+			RequiredCardCount: m.FirstLinkAbility.RequiredCardCount,
+			Effect:            m.FirstLinkAbility.Effect,
+		}
+	}
+	if m.SecondLinkAbility != nil {
+		linkAbility2 = LinkAbility{
+			Name:              m.SecondLinkAbility.Name,
+			RequiredCardCount: m.SecondLinkAbility.RequiredCardCount,
+			Effect:            m.SecondLinkAbility.Effect,
+		}
+	}
+
+	return &PlCard{
+		No:               m.No,
+		IncludeCode:      m.IncludeCode,
+		ImageUrl:         m.ImageURL,
+		Rarity:           m.Rarity,
+		Name:             m.Name,
+		Type:             m.Type,
+		Cost:             m.Cost,
+		Mobility:         m.Mobility,
+		LongRangeAttack:  m.LongRangeAttack,
+		CloseRangeAttack: m.CloseRangeAttack,
+		Hp:               m.HP,
+		TotalScore:       m.TotalScore,
+		PlSkill:          plSkill,
+		LinkAbility1:     linkAbility1,
+		LinkAbility2:     linkAbility2,
+		SeriesTitle:      m.SeriesTitle,
+	}
 }

@@ -55,7 +55,7 @@ func (s *msCardQueryService) FindMany(input MsCardFindManyInput) (*MsCardFindMan
 		if input.Costs[len(input.Costs)-1] == 7 {
 			baseQuery = baseQuery.Where("cost >= ?", 7)
 		} else {
-			baseQuery = baseQuery.Where("cost IN (?)", costsInt) // パラメータの部分を修正
+			baseQuery = baseQuery.Where("cost IN (?)", costsInt)
 		}
 	}
 

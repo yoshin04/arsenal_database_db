@@ -4,7 +4,6 @@ import (
 	usecase "app/usecase/commands"
 	queryService "app/usecase/queries"
 	"app/utils"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -74,7 +73,6 @@ func (mc *msCardController) FindMany(c echo.Context) error {
 			log.Printf("Error parsing cost '%s': %v", cp, err)
 		}
 	}
-	fmt.Printf("costs: %v\n", costs)
 
 	rarities := c.QueryParams()["rarities[]"]
 	msTypes := c.QueryParams()["msTypes[]"]
