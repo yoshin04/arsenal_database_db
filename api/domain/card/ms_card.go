@@ -47,6 +47,7 @@ func ToDomainMsCard(m *models.MSCard) *MsCard {
 	var linkAbility1, linkAbility2 LinkAbility
 	if m.FirstLinkAbility != nil {
 		linkAbility1 = LinkAbility{
+			ID:                m.FirstLinkAbility.ID,
 			Name:              m.FirstLinkAbility.Name,
 			RequiredCardCount: m.FirstLinkAbility.RequiredCardCount,
 			Effect:            m.FirstLinkAbility.Effect,
@@ -54,6 +55,7 @@ func ToDomainMsCard(m *models.MSCard) *MsCard {
 	}
 	if m.SecondLinkAbility != nil {
 		linkAbility2 = LinkAbility{
+			ID:                m.SecondLinkAbility.ID,
 			Name:              m.SecondLinkAbility.Name,
 			RequiredCardCount: m.SecondLinkAbility.RequiredCardCount,
 			Effect:            m.SecondLinkAbility.Effect,
