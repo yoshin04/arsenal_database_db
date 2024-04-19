@@ -20,7 +20,7 @@ func main() {
 	}()
 
 	// マイグレーションの実行
-	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{})
+	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{}, &models.SeriesTitle{})
 	if err != nil {
 		fmt.Println("マイグレーションに失敗しました:", err)
 		return
@@ -30,10 +30,11 @@ func main() {
 	plCardRepo := repository.NewPLCardRepository(dbConn)
 	msCardRepo := repository.NewMSCardRepository(dbConn)
 	tacRepo := repository.NewTacticalCardRepository(dbConn)
+	seriesTitleRepo := repository.NewSeriesTitleRepository(dbConn)
 	plCardQueryService := queryService.NewPlCardQueryService(dbConn)
 	msCardQueryService := queryService.NewMsCardQueryService(dbConn)
 	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo)
-	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo)
+	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo, seriesTitleRepo)
 	importTacticalCardCsvUsecase := usecase.NewImportTacticalCardCsvUsecase(tacRepo)
 	plCardController := controller.NewPlCardController(plCardQueryService, importPlCardCsvUsecase)
 	msCardController := controller.NewMsCardController(importMsCardCsvUsecase, msCardQueryService)

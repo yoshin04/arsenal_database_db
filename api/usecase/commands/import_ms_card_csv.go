@@ -19,12 +19,14 @@ type IImportMsCardCsvUsecase interface {
 type importMsCardCsvUsecase struct {
 	msCardRepo      repository.IMSCardRepository
 	linkAbilityRepo repository.ILinkAbilityRepository
+	seriesTitleRepo repository.ISeriesTitleRepository
 }
 
-func NewImportMsCardCsvUsecase(msCardRepo repository.IMSCardRepository, linkAbilityRepo repository.ILinkAbilityRepository) IImportMsCardCsvUsecase {
+func NewImportMsCardCsvUsecase(msCardRepo repository.IMSCardRepository, linkAbilityRepo repository.ILinkAbilityRepository, seriesTitleRepo repository.ISeriesTitleRepository) IImportMsCardCsvUsecase {
 	return &importMsCardCsvUsecase{
 		msCardRepo:      msCardRepo,
 		linkAbilityRepo: linkAbilityRepo,
+		seriesTitleRepo: seriesTitleRepo,
 	}
 }
 
@@ -179,6 +181,15 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 			abilityDetail = &record[29]
 		}
 
+		var seriesTitle *string
+		if record[38] != "" && record[38] != "-" {
+			seriesTitle = &record[38]
+			if err := uc.seriesTitleRepo.Upsert(*seriesTitle); err != nil {
+				log.Printf("Error upserting series_title: %v", err)
+				return "", err
+			}
+		}
+
 		msCard := &models.MSCard{
 			ID:                    record[1] + formattedNo,
 			IncludedCode:          record[1],
@@ -210,7 +221,7 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 			AbilityCost:           abilityCost,
 			AbilityRange:          abilityRange,
 			AbilityDetail:         abilityDetail,
-			SeriesTitle:           record[38],
+			SeriesTitle:           *seriesTitle,
 			FirstLinkAbilityID:    firstLinkAbilityID,
 			SecondLinkAbilityID:   secondLinkAbilityID,
 		}
