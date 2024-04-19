@@ -12,7 +12,7 @@ type SeriesTitleFindManyResult struct {
 }
 
 type ISeriesTitleQueryService interface {
-	FindAll() (*SeriesTitleFindManyResult, error)
+	FindMany() (*SeriesTitleFindManyResult, error)
 }
 
 type seriesTitleQueryService struct {
@@ -23,7 +23,7 @@ func NewSeriesTitleQueryService(db *gorm.DB) ISeriesTitleQueryService {
 	return &seriesTitleQueryService{db}
 }
 
-func (s *seriesTitleQueryService) FindAll() (*SeriesTitleFindManyResult, error) {
+func (s *seriesTitleQueryService) FindMany() (*SeriesTitleFindManyResult, error) {
 	var modelSeriesTitles []*models.SeriesTitle
 	var totalLength int64
 

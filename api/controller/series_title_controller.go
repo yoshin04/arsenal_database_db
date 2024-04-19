@@ -24,7 +24,7 @@ func NewSeriesTitleController(seriesTitleQs queryService.ISeriesTitleQueryServic
 
 func (stc *seriesTitleController) FindMany(c echo.Context) error {
 	log.Println("Running SeriesTitleController.FindMany")
-	result, err := stc.seriesTitleQueryService.FindAll()
+	result, err := stc.seriesTitleQueryService.FindMany()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Error fetching series titles")
 	}
