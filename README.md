@@ -16,7 +16,6 @@ https://docs.google.com/spreadsheets/d/1JZhjK050sCrYD0AITa6aBPbTbRLUFpXrbH5ItDif
 - [技術スタック](#技術スタック)
 - [設計資料](#設計資料)
 - [開発環境構築](#開発環境構築)
-- [コントリビューション](#コントリビューション)
 
 ## 使い方
 
@@ -30,6 +29,22 @@ https://docs.google.com/spreadsheets/d/1JZhjK050sCrYD0AITa6aBPbTbRLUFpXrbH5ItDif
 - REST API
 
 ## 設計資料
+### 要件定義書
+https://docs.google.com/spreadsheets/d/1SCDyXZiIJsBeGlSgbpCxFYA66yRFzzEkoxgR75UvUVo/edit?pli=1#gid=0
+
+### ワイヤーフレーム
+【figma】
+https://www.figma.com/file/BmWFMKjVwnRXcToXs7DvTY/%E7%84%A1%E9%A1%8C?type=design&node-id=0%3A1&mode=design&t=OzSmpu1W6zZRssBT-1
+
+### テーブル設計図
+https://docs.google.com/spreadsheets/d/13ZCmZQymBbb-SQ5BRk4H2OxBvnJjfP74emdfa3CtdDo/edit?usp=sharing
+
+### ER図
+未作成。
+
+### APIドキュメント
+Apidogで管理。
+https://app.apidog.com/
 
 ## 開発環境構築
 
@@ -70,5 +85,3 @@ https://docs.google.com/spreadsheets/d/1JZhjK050sCrYD0AITa6aBPbTbRLUFpXrbH5ItDif
   yarn dev
   http://localhost:3000
 ```
-
-## コントリビューション
