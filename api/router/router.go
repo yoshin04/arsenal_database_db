@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController, tsc controller.ITacticalCardController, lac controller.ILinkAbilityController, stc controller.ISeriesTitleController) *echo.Echo {
+func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController, tsc controller.ITacticalCardController, lac controller.ILinkAbilityController, stc controller.ISeriesTitleController, icc controller.IIncludeCodeController) *echo.Echo {
 	e := echo.New()
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{
@@ -29,5 +29,7 @@ func NewRouter(plc controller.IPlCardController, msc controller.IMsCardControlle
 	e.GET("/series-titles", stc.FindMany)
 
 	e.GET("/link-abilities", lac.FindMany)
+
+	e.GET("/include-codes", icc.FindMany)
 	return e
 }

@@ -38,6 +38,7 @@ func main() {
 	seriesTitleQueryService := queryService.NewSeriesTitleQueryService(dbConn)
 	linkAbilityQueryService := queryService.NewLinkAbilityQueryService(dbConn)
 	tacticalCardQueryService := queryService.NewTacticalCardQueryService(dbConn)
+	includeCodeQueryService := queryService.NewIncludeCodeQueryService(dbConn)
 	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo, includeCodeRepo)
 	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo, seriesTitleRepo, includeCodeRepo)
 	importTacticalCardCsvUsecase := usecase.NewImportTacticalCardCsvUsecase(tacRepo)
@@ -46,6 +47,7 @@ func main() {
 	seriesTitleController := controller.NewSeriesTitleController(seriesTitleQueryService)
 	linkAbilityController := controller.NewLinkAbilityController(linkAbilityQueryService)
 	tacCardController := controller.NewTacticalCardController(importTacticalCardCsvUsecase, tacticalCardQueryService)
-	e := router.NewRouter(plCardController, msCardController, tacCardController, seriesTitleController, linkAbilityController)
+	includeCodeController := controller.NewIncludeCodeController(includeCodeQueryService)
+	e := router.NewRouter(plCardController, msCardController, tacCardController, seriesTitleController, linkAbilityController, includeCodeController)
 	e.Logger.Fatal(e.Start(":8080"))
 }
