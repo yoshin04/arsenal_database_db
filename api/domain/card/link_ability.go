@@ -1,6 +1,7 @@
 package domain
 
 type LinkAbility struct {
+	ID                string // リンク能力ID
 	Name              string // リンク能力名
 	RequiredCardCount uint8  // 必要カード枚数
 	Effect            string // リンク能力詳細

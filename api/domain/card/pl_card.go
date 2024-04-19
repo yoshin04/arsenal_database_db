@@ -34,6 +34,7 @@ func ToDomainPlCard(m *models.PLCard) *PlCard {
 	var linkAbility1, linkAbility2 LinkAbility
 	if m.FirstLinkAbility != nil {
 		linkAbility1 = LinkAbility{
+			ID:                m.FirstLinkAbility.ID,
 			Name:              m.FirstLinkAbility.Name,
 			RequiredCardCount: m.FirstLinkAbility.RequiredCardCount,
 			Effect:            m.FirstLinkAbility.Effect,
@@ -41,6 +42,7 @@ func ToDomainPlCard(m *models.PLCard) *PlCard {
 	}
 	if m.SecondLinkAbility != nil {
 		linkAbility2 = LinkAbility{
+			ID:                m.SecondLinkAbility.ID,
 			Name:              m.SecondLinkAbility.Name,
 			RequiredCardCount: m.SecondLinkAbility.RequiredCardCount,
 			Effect:            m.SecondLinkAbility.Effect,
