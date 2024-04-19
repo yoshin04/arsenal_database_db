@@ -26,7 +26,7 @@ type PlCardFindManyResult struct {
 
 type IPlCardQueryService interface {
 	FindMany(input PlCardFindManyInput) (*PlCardFindManyResult, error)
-	// FindOneById(id string) (*domain.PlCard, error)
+	FindOneById(id string) (*domain.PlCard, error)
 }
 
 type plCardQueryService struct {
@@ -99,12 +99,12 @@ func (s *plCardQueryService) FindMany(input PlCardFindManyInput) (*PlCardFindMan
 	}, nil
 }
 
-// func (s *plCardQueryService) FindOneById(id string) (*domain.PlCard, error) {
-// 	var plCards = mocks.GenerateDummyPlCards()
-// 	for _, plCard := range plCards {
-// 		if plCard.Id == id {
-// 			return plCard, nil
-// 		}
-// 	}
-// 	return nil, nil
-// }
+func (s *plCardQueryService) FindOneById(id string) (*domain.PlCard, error) {
+	log.Printf("Running PlCardQueryService.FindOneById with id: %s\n", id)
+	var modelPlCard models.PLCard
+	result := s.db.Preload("FirstLinkAbility").Preload("SecondLinkAbility").First(&modelPlCard, "id = ?", id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return domain.ToDomainPlCard(&modelPlCard), nil
+}
