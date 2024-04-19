@@ -20,7 +20,7 @@ func main() {
 	}()
 
 	// マイグレーションの実行
-	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{})
+	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{}, &models.IncludeCode{})
 	if err != nil {
 		fmt.Println("マイグレーションに失敗しました:", err)
 		return
