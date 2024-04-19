@@ -13,7 +13,7 @@ import (
 
 type IPlCardController interface {
 	FindMany(c echo.Context) error
-	// FindOneById(c echo.Context) error
+	FindOneById(c echo.Context) error
 	ImportCsv(c echo.Context) error
 }
 
@@ -75,19 +75,20 @@ func (pc *plCardController) FindMany(c echo.Context) error {
 	return c.JSON(http.StatusOK, plCards)
 }
 
-// func (pc *plCardController) FindOneById(c echo.Context) error {
-// 	id := c.Param("id")
-// 	plCard, err := pc.queryService.FindOneById(id)
-// 	if err != nil {
-// 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve card")
-// 	}
+func (pc *plCardController) FindOneById(c echo.Context) error {
+	log.Println("Running PlCardController.FindOneById")
+	id := c.Param("id")
+	plCard, err := pc.queryService.FindOneById(id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to retrieve card")
+	}
 
-// 	if plCard == nil {
-// 		return echo.NewHTTPError(http.StatusNotFound, "Card not found")
-// 	}
+	if plCard == nil {
+		return echo.NewHTTPError(http.StatusNotFound, "Card not found")
+	}
 
-// 	return c.JSON(http.StatusOK, plCard)
-// }
+	return c.JSON(http.StatusOK, plCard)
+}
 
 func (pc *plCardController) ImportCsv(c echo.Context) error {
 	log.Println("Running PlCardController.ImportCsv")
