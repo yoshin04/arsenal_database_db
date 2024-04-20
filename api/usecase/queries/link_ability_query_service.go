@@ -26,6 +26,7 @@ func NewLinkAbilityQueryService(db *gorm.DB) ILinkAbilityQueryService {
 }
 
 func (s *linkAbilityQueryService) FindMany() (*LinkAbilityFindManyResult, error) {
+	log.Println("Running LinkAbilityQueryService.FindMany")
 	var modelLinkAbilities []*domain.LinkAbility
 	var totalLength int64
 

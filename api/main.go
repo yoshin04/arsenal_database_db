@@ -20,7 +20,8 @@ func main() {
 	}()
 
 	// マイグレーションの実行
-	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{}, &models.SeriesTitle{})
+	err := dbConn.AutoMigrate(&models.User{}, &models.LinkAbility{}, &models.MSCard{}, &models.PLCard{}, &models.TacticalCard{}, &models.GameDeck{}, &models.SeriesTitle{}, &models.IncludeCode{})
+
 	if err != nil {
 		fmt.Println("マイグレーションに失敗しました:", err)
 		return
@@ -30,20 +31,23 @@ func main() {
 	plCardRepo := repository.NewPLCardRepository(dbConn)
 	msCardRepo := repository.NewMSCardRepository(dbConn)
 	tacRepo := repository.NewTacticalCardRepository(dbConn)
+	includeCodeRepo := repository.NewIncludeCodeRepository(dbConn)
 	seriesTitleRepo := repository.NewSeriesTitleRepository(dbConn)
 	plCardQueryService := queryService.NewPlCardQueryService(dbConn)
 	msCardQueryService := queryService.NewMsCardQueryService(dbConn)
 	seriesTitleQueryService := queryService.NewSeriesTitleQueryService(dbConn)
 	linkAbilityQueryService := queryService.NewLinkAbilityQueryService(dbConn)
 	tacticalCardQueryService := queryService.NewTacticalCardQueryService(dbConn)
-	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo)
-	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo, seriesTitleRepo)
+	includeCodeQueryService := queryService.NewIncludeCodeQueryService(dbConn)
+	importPlCardCsvUsecase := usecase.NewImportPlCardCsvUsecase(plCardRepo, linkAbilityRepo, includeCodeRepo)
+	importMsCardCsvUsecase := usecase.NewImportMsCardCsvUsecase(msCardRepo, linkAbilityRepo, seriesTitleRepo, includeCodeRepo)
 	importTacticalCardCsvUsecase := usecase.NewImportTacticalCardCsvUsecase(tacRepo)
 	plCardController := controller.NewPlCardController(plCardQueryService, importPlCardCsvUsecase)
 	msCardController := controller.NewMsCardController(importMsCardCsvUsecase, msCardQueryService)
 	seriesTitleController := controller.NewSeriesTitleController(seriesTitleQueryService)
 	linkAbilityController := controller.NewLinkAbilityController(linkAbilityQueryService)
 	tacCardController := controller.NewTacticalCardController(importTacticalCardCsvUsecase, tacticalCardQueryService)
-	e := router.NewRouter(plCardController, msCardController, tacCardController)
+	includeCodeController := controller.NewIncludeCodeController(includeCodeQueryService)
+	e := router.NewRouter(plCardController, msCardController, tacCardController, seriesTitleController, linkAbilityController, includeCodeController)
 	e.Logger.Fatal(e.Start(":8080"))
 }

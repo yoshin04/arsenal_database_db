@@ -2,6 +2,7 @@ package queryService
 
 import (
 	"app/db/models"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -24,15 +25,14 @@ func NewSeriesTitleQueryService(db *gorm.DB) ISeriesTitleQueryService {
 }
 
 func (s *seriesTitleQueryService) FindMany() (*SeriesTitleFindManyResult, error) {
+	log.Println("Running SeriesTitleQueryService.FindMany")
 	var modelSeriesTitles []*models.SeriesTitle
 	var totalLength int64
 
-	// 先に総数を取得
 	if err := s.db.Model(&models.SeriesTitle{}).Count(&totalLength).Error; err != nil {
 		return nil, err
 	}
 
-	// シリーズタイトルのリストを取得
 	if err := s.db.Find(&modelSeriesTitles).Error; err != nil {
 		return nil, err
 	}

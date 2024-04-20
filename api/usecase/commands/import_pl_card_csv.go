@@ -19,12 +19,14 @@ type IImportPlCardCsvUsecase interface {
 type importPlCardCsvUsecase struct {
 	plCardRepo      repository.IPLCardRepository
 	linkAbilityRepo repository.ILinkAbilityRepository
+	includeCodeRepo repository.IIncludeCodeRepository
 }
 
-func NewImportPlCardCsvUsecase(plCardRepo repository.IPLCardRepository, linkAbilityRepo repository.ILinkAbilityRepository) IImportPlCardCsvUsecase {
+func NewImportPlCardCsvUsecase(plCardRepo repository.IPLCardRepository, linkAbilityRepo repository.ILinkAbilityRepository, includeCodeRepo repository.IIncludeCodeRepository) IImportPlCardCsvUsecase {
 	return &importPlCardCsvUsecase{
 		plCardRepo:      plCardRepo,
 		linkAbilityRepo: linkAbilityRepo,
+		includeCodeRepo: includeCodeRepo,
 	}
 }
 
@@ -123,9 +125,18 @@ func (uc *importPlCardCsvUsecase) Run(file io.Reader) (string, error) {
 			return "", err
 		}
 
+		var includedCode *string
+		if record[1] != "" && record[1] != "-" {
+			includedCode = &record[1]
+			if err := uc.includeCodeRepo.Upsert(*includedCode); err != nil {
+				log.Printf("Error upserting included_code: %v", err)
+				return "", err
+			}
+		}
+
 		plCard := &models.PLCard{
-			ID:               record[1] + formattedNo,
-			IncludeCode:      record[1],
+			ID:               *includedCode + formattedNo,
+			IncludeCode:      *includedCode,
 			No:               formattedNo,
 			ImageURL:         os.Getenv("S3_URL") + record[1] + formattedNo + ".webp",
 			Name:             record[4],

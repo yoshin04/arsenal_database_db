@@ -20,13 +20,15 @@ type importMsCardCsvUsecase struct {
 	msCardRepo      repository.IMSCardRepository
 	linkAbilityRepo repository.ILinkAbilityRepository
 	seriesTitleRepo repository.ISeriesTitleRepository
+	includeCodeRepo repository.IIncludeCodeRepository
 }
 
-func NewImportMsCardCsvUsecase(msCardRepo repository.IMSCardRepository, linkAbilityRepo repository.ILinkAbilityRepository, seriesTitleRepo repository.ISeriesTitleRepository) IImportMsCardCsvUsecase {
+func NewImportMsCardCsvUsecase(msCardRepo repository.IMSCardRepository, linkAbilityRepo repository.ILinkAbilityRepository, seriesTitleRepo repository.ISeriesTitleRepository, includeCodeRepo repository.IIncludeCodeRepository) IImportMsCardCsvUsecase {
 	return &importMsCardCsvUsecase{
 		msCardRepo:      msCardRepo,
 		linkAbilityRepo: linkAbilityRepo,
 		seriesTitleRepo: seriesTitleRepo,
+		includeCodeRepo: includeCodeRepo,
 	}
 }
 
@@ -190,9 +192,18 @@ func (uc *importMsCardCsvUsecase) Run(file io.Reader) (string, error) {
 			}
 		}
 
+		var includedCode *string
+		if record[1] != "" && record[1] != "-" {
+			includedCode = &record[1]
+			if err := uc.includeCodeRepo.Upsert(*includedCode); err != nil {
+				log.Printf("Error upserting included_code: %v", err)
+				return "", err
+			}
+		}
+
 		msCard := &models.MSCard{
-			ID:                    record[1] + formattedNo,
-			IncludedCode:          record[1],
+			ID:                    *includedCode + formattedNo,
+			IncludedCode:          *includedCode,
 			No:                    formattedNo,
 			ImageURL:              os.Getenv("S3_URL") + record[1] + formattedNo + ".webp",
 			Name:                  record[4],
