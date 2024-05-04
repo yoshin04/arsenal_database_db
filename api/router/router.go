@@ -8,13 +8,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController, tsc controller.ITacticalCardController, lac controller.ILinkAbilityController, stc controller.ISeriesTitleController, icc controller.IIncludeCodeController) *echo.Echo {
+func NewRouter(plc controller.IPlCardController, msc controller.IMsCardController, tsc controller.ITacticalCardController, lac controller.ILinkAbilityController, stc controller.ISeriesTitleController, icc controller.IIncludeCodeController, ac controller.IAuthController) *echo.Echo {
 	e := echo.New()
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{
 			"message": "hello",
 		})
 	})
+
+	e.POST("/signup", ac.Register)
+
 	e.GET("/pl-cards", plc.FindMany)
 	e.GET("/pl-cards/:id", plc.FindOneById)
 	e.POST("/pl-cards/import-csv", plc.ImportCsv, middleware.CSVImportAuthMiddleware)
